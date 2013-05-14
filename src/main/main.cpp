@@ -3,7 +3,7 @@
 #include <algorithm>
 #include <vector>
 
-#include "../component/comp.h"
+#include "component/comp.h"
 
 int main(int argc, char* argv[])
 {

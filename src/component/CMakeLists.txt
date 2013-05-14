@@ -1,2 +1,2 @@
 # Libraries.
-add_library (component comp.cpp)
+add_library (component SHARED comp.cpp)
