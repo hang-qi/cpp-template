@@ -1,0 +1,36 @@
+// Version.h
+// This header file is automatically generated. Do not change manually.
+
+#ifndef _VERSION_H_
+#define _VERSION_H_
+
+#define PROJECT_NAME    "${project_name}"
+#define COMPANY_NAME    "${company_name}"
+
+#define VERSION_NUM_MAJOR ${version_major}
+#define VERSION_NUM_MINOR ${version_minor}
+#define VERSION_NUM_BUILD ${version_build}
+
+#define VERSION_STR_FULL    "${version_major}.${version_minor}.${version_build}"
+
+class Version
+{
+public:
+    static int GetMajor() {return VERSION_NUM_MAJOR;}
+    static int GetMinor() {return VERSION_NUM_MINOR;}
+    static int GetBuild() {return VERSION_NUM_BUILD;}
+
+    static const char* GetVersion()
+    {
+        return VERSION_STR_FULL;
+    }
+
+    static bool IsAtLeast(int major, int minor, int build)
+    {
+        return (VERSION_NUM_MAJOR >= major)
+            && (VERSION_NUM_MINOR >= minor)
+            && (VERSION_NUM_BUILD >= build);
+    }
+};
+
+#endif
