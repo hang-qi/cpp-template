@@ -1,7 +1,7 @@
 {
-    "company_name": "Company Name",
-    "project_name": "Project Name",
-    "version_build": 0,
-    "version_major": 1,
-    "version_minor": 0
+	"project_name": "Project Name",
+	"company_name": "Company Name",
+	"version_major": 1,
+	"version_minor": 0,
+	"version_build": 0
 }
