@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 from string import Template
-from optparse import OptionParser, OptionGroup
+import argparse
 import json
 
 
@@ -71,33 +71,33 @@ def set_version(config, options):
 
 def main():
     # Parse options
-    usage = "Usage: %prog [-m|-n|-s <version>] [-o <file>]"
+    usage = "%(prog)s [options]"
     description = "Increase version and generate a header file."
-    parser = OptionParser(usage=usage, description=description)
-    parser.add_option("-i", "--input", dest="config_file",
+    parser = argparse.ArgumentParser(usage=usage, description=description)
+    parser.add_argument("-i", "--input", dest="config_file",
                       action="store", metavar="<config-file>",
                       help="read current versioning from <config-file>")
-    parser.add_option("-o", "--output", dest="output_file",
+    parser.add_argument("-o", "--output", dest="output_file",
                       action="store", metavar="<file>",
                       help="write header file output to <file>. "
                       "Use 'version.h' if not specified")
-    inc_group = OptionGroup(parser, "Versioning Options",
-                            "The build version will be increased "
-                            "if none of the following options is specified.")
-    inc_group.add_option("-m", "--major-increase", dest="increase_major",
+
+    inc_group = parser.add_argument_group('Versioning Options',
+                    "The build version will be increased "
+                    "if none of the following options is specified.")
+    inc_group.add_argument("-m", "--major-increase", dest="increase_major",
                          action="store_true", default=False,
                          help="increase major version")
-    inc_group.add_option("-n", "--minor-increase", dest="increase_minor",
+    inc_group.add_argument("-n", "--minor-increase", dest="increase_minor",
                          action="store_true", default=False,
                          help="increase minor version")
-    inc_group.add_option("-s", "--set-version", dest="target_version",
+    inc_group.add_argument("-s", "--set-version", dest="target_version",
                          action="store", metavar="<version>",
                          help="set to the designated <version> (e.g. 1.5.0)")
-    parser.add_option_group(inc_group)
 
-    (options, args) = parser.parse_args()
+    args = parser.parse_args()
 
-    if options.increase_major is True and options.increase_minor is True:
+    if args.increase_major is True and args.increase_minor is True:
         parser.error('cannot increase both major version and minor version.')
 
     default_config_file = 'version_config.json'
@@ -107,15 +107,15 @@ def main():
     config_file = default_config_file
     output_file = default_output_file
     template_file = default_template_file
-    if options.output_file is not None:
-        output_file = options.output_file
+    if args.output_file is not None:
+        output_file = args.output_file
 
     # Read the configuration file.
     config = read_configuration(config_file)
 
     # Set version.
     try:
-        config = set_version(config, options)
+        config = set_version(config, args)
     except ValueError as err:
         parser.error(err)
 
