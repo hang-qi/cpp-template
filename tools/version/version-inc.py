@@ -11,8 +11,20 @@ def read_configuration(config_file):
 
 
 def write_configuration(config, config_file):
+    output_order = ['project_name', 'company_name',
+        'version_major', 'version_minor', 'version_build']
+    ordering = dict()
+    for (oid, field_name) in enumerate(output_order):
+        ordering[field_name] = oid
+
+    outlist = []
+    for k in sorted(config.keys(), key=lambda k: ordering[k]):
+        outlist.append(json.dumps({k: config[k]}))
+    outlist = "{\n\t" + ",\n\t".join((s[1:-1] for s in outlist)) + "\n}"
+
+    #s = "[" + ",".join(outlist) + "]"
     with open(config_file, 'w') as f:
-        json.dump(config, f, sort_keys=True, indent=4, separators=(',', ': '))
+        f.write(outlist)
 
 
 def read_template(template_file):
